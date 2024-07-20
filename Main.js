@@ -2,18 +2,32 @@ document.addEventListener('DOMContentLoaded', () => {
     createSquares();
     document.getElementById('squaresContainer').addEventListener('scroll', handleScroll);
 
-    let firstVisitDate = localStorage.getItem('firstVisitDate');
-    if (!firstVisitDate) {
-        firstVisitDate = new Date().toISOString();
-        localStorage.setItem('firstVisitDate', firstVisitDate);
+    const registrationDateStr = localStorage.getItem('registrationDate');
+    if (registrationDateStr) {
+        console.log(`Found registration date: ${registrationDateStr}`);
+        const registrationDate = new Date(registrationDateStr);
+        const currentDayIndex = getDayIndex(registrationDate);
+        currentDay = currentDayIndex;
+
+        console.log(`Current day index: ${currentDay}`);
+    } else {
+        console.warn('Registration date not found.');
     }
 
     setInterval(() => {
-        markCurrentDay(firstVisitDate);
+        markCurrentDay(currentDay);
     }, 5000);
 
-    markCurrentDay(firstVisitDate);
+    markCurrentDay(currentDay);
 });
+
+function getDayIndex(registrationDate) {
+    const startDate = new Date(registrationDate);
+    const today = new Date();
+    const diffTime = Math.abs(today - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+}
 
 let totalSquares = 29200;
 const buffer = 100; 
@@ -21,7 +35,34 @@ let renderedSquares = [];
 let squareCount = 0; 
 
 function createSquares() {
-    for (let i = 0; i < 10; i++) {
+
+    const registrationDateStr = localStorage.getItem('registrationDate');
+
+    if (registrationDateStr) {
+    const registrationDate = new Date(registrationDateStr);
+
+    const currentDate = new Date();
+
+    const differenceInMilliseconds = currentDate - registrationDate;
+
+    const millisecondsInADay = 24 * 60 * 60 * 1000;
+    const millisecondsInAnHour = 60 * 60 * 1000;
+    const millisecondsInAMinute = 60 * 1000;
+    const millisecondsInASecond = 1000;
+
+    const days = Math.floor(differenceInMilliseconds / millisecondsInADay);
+    const hours = Math.floor((differenceInMilliseconds % millisecondsInADay) / millisecondsInAnHour);
+    const minutes = Math.floor((differenceInMilliseconds % millisecondsInAnHour) / millisecondsInAMinute);
+    const seconds = Math.floor((differenceInMilliseconds % millisecondsInAMinute) / millisecondsInASecond);
+
+    currentDay = days; 
+
+        console.log(`Разница: ${days}`);
+    } else {
+        console.log('Дата регистрации не найдена в localStorage');
+    }
+
+    for (let i = 0; i < currentDay; i++) {
         const container = document.getElementById('squaresContainer');
         const square = document.createElement('div');
         square.classList.add('square');
@@ -127,11 +168,6 @@ function updateSquareColor(squareElement, value) {
         squareElement.style.boxShadow = '0 0 10px #8a8a8a';
     }
 }
-//
-
-let currentDay = 10; 
-
-//
 
 function markCurrentDay(firstVisitDate) {
     const previousActiveSquare = document.querySelector('.square-inner.active');
@@ -209,12 +245,8 @@ function scaleSquares() {
     handleScroll();
 }
 
-function clearStorage() {
+function clearProgress() {
     localStorage.clear();
     localStorage.removeItem('firstVisitDate');
-}
-
-function clearProgress() {
-    clearStorage();
     location.reload();
 }
