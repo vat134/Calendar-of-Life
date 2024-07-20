@@ -2,6 +2,7 @@
     --square-size: 150px;
     --square-gap: 10px;
     --neon-green: #39ff14;
+    --neon-red: #da0606;
 }
 
 a {
@@ -134,7 +135,7 @@ body {
     border-radius: 50%;
 }
 
-button {
+.Clear_button {
     background-color: black;
     color: var(--neon-green);
     border: 2px solid var(--neon-green);
@@ -145,10 +146,27 @@ button {
     margin: 10px 0;
 }
 
-button:hover {
+.Clear_button:hover {
     background-color: var(--neon-green);
     color: black;
     box-shadow: 0 0 10px var(--neon-green);
+}
+
+.Delete_Button {
+    background-color: black;
+    color: var(--neon-red);
+    border: 2px solid var(--neon-red);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.Delete_Button:hover {
+    background-color: var(--neon-red);
+    color: black;
+    box-shadow: 0 0 10px var(--neon-red);
 }
 
 .squares-container {
