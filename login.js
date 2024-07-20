@@ -109,7 +109,6 @@ function Login() {
 
 
 function getRegister() {
-
     const usernameInput = document.getElementById('registerUsername');
     const passwordInput = document.getElementById('registerPassword');
     const dateInput = document.getElementById('registerDate');
@@ -127,11 +126,11 @@ function getRegister() {
 
     let isValid = true;
 
-    if (usernameInput.value.trim() == '') {
+    if (usernameInput.value.trim() === '') {
         usernameInput.classList.add('error');
         usernameError.textContent = 'Username is required.';
         isValid = false;
-    }else {
+    } else {
         const username = usernameInput.value;
         const userExists = userData.some(user => user.username === username);
         if (userExists) {
@@ -141,31 +140,34 @@ function getRegister() {
         }
     }
 
-    if (passwordInput.value.trim() == '') {
+    if (passwordInput.value.trim() === '') {
         passwordInput.classList.add('error');
         passwordError.textContent = 'Password is required.';
         isValid = false;
-        }
+    }
     
-    if (dateInput.value.trim() == '') {
+    if (dateInput.value.trim() === '') {
         dateInput.classList.add('error');
         dateError.textContent = 'Date is required.';
         isValid = false;
-        }
+    }
     
     if (isValid) {
         const username = usernameInput.value;
         const password = passwordInput.value;
         const date = dateInput.value;
-    
-
-        const user = new User(username,password,date)
+        
+        const user = new User(username, password, date);
         userData.push(user);
+        save();
 
-        save()
-        showLoginForm()
+        // Save registration date in localStorage
+        localStorage.setItem('registrationDate', date);
+
+        showLoginForm();
     }
 }
+
 
 function save() {
     const userDataJSON = userData.map(user => user.toJSON());
