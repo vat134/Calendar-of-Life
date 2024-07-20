@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(() => {
         markCurrentDay(currentDay);
-    }, 5000);
+    }, 2500);
 
     markCurrentDay(currentDay);
 });
@@ -179,7 +179,7 @@ function markCurrentDay(firstVisitDate) {
             previousActiveSquare.style.boxShadow = 'none';
         }
         previousActiveSquare.classList.remove('active');
-        previousActiveSquare.querySelector('input').placeholder = 'Что сделал?';
+        previousActiveSquare.querySelector('input').placeholder = '';
         previousActiveSquare.querySelector('input').style.pointerEvents = 'none';
     }
 
@@ -250,3 +250,19 @@ function clearProgress() {
     localStorage.removeItem('firstVisitDate');
     location.reload();
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const logoutButton = document.getElementById('logoutButton');
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            
+            localStorage.removeItem('registrationDate');
+            localStorage.removeItem('userData');
+
+            window.location.href = 'login.html';
+        });
+    }
+});
