@@ -276,5 +276,5 @@ function DeleteAccaount() {
     localStorage.removeItem('userData');
     localStorage.removeItem('firstVisitDate');
     localStorage.clear();
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
